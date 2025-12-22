@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generate App Icon",
+            "type": "shell",
+            "command": "python3 scripts/process_icon.py assets/original_icon.png assets/icon.png && fvm flutter pub run flutter_launcher_icons",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -33,7 +33,7 @@ final class EssayRepositoryProvider
   EssayRepository create() => EssayRepository();
 }
 
-String _$essayRepositoryHash() => r'dc62e4346b3f17e506f27f00f964274de946b2c7';
+String _$essayRepositoryHash() => r'45eb72051deaa9f21e19f1d7c6487f65093e2287';
 
 abstract class _$EssayRepository extends $AsyncNotifier<List<Essay>> {
   FutureOr<List<Essay>> build();

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'storage_service.dart';
+part of 'pcloud_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,33 +9,33 @@ part of 'storage_service.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(StorageService)
-const storageServiceProvider = StorageServiceProvider._();
+@ProviderFor(PCloudService)
+const pCloudServiceProvider = PCloudServiceProvider._();
 
-final class StorageServiceProvider
-    extends $AsyncNotifierProvider<StorageService, void> {
-  const StorageServiceProvider._()
+final class PCloudServiceProvider
+    extends $AsyncNotifierProvider<PCloudService, void> {
+  const PCloudServiceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'storageServiceProvider',
+        name: r'pCloudServiceProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$storageServiceHash();
+  String debugGetCreateSourceHash() => _$pCloudServiceHash();
 
   @$internal
   @override
-  StorageService create() => StorageService();
+  PCloudService create() => PCloudService();
 }
 
-String _$storageServiceHash() => r'd11bddc31717e77dbf4187f0b5d4a6ba2dc3f293';
+String _$pCloudServiceHash() => r'421d4d59b113565ea709b425986eec104245ed34';
 
-abstract class _$StorageService extends $AsyncNotifier<void> {
+abstract class _$PCloudService extends $AsyncNotifier<void> {
   FutureOr<void> build();
   @$mustCallSuper
   @override

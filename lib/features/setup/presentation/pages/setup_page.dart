@@ -60,19 +60,33 @@ class SetupPage extends ConsumerWidget {
                 description: 'Sync directly with your pCloud account',
                 onTap: () async {
                   try {
-                    await ref.read(pCloudServiceProvider.notifier).startLogin();
-                    // Note: The actual completion of login happens via deep link callback
-                    // We need to handle that in main.dart or a dedicated route handler
-                    // For now, we'll just set the storage type assuming success for the UI flow
-                    // In a real app, we'd wait for the token.
-                    
-                    // Simulating success for now until we implement deep linking
-                    await ref.read(storageServiceProvider.notifier).setPCloudStorage();
-                    
+                    // Show a loading indicator
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please complete login in your browser')),
+                        const SnackBar(content: Text('Opening browser for pCloud login...')),
                       );
+                    }
+                    
+                    // Start login - this will block until OAuth completes
+                    final success = await ref.read(pCloudServiceProvider.notifier).startLogin();
+                    
+                    if (success) {
+                      await ref.read(storageServiceProvider.notifier).setPCloudStorage();
+                      
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Successfully connected to pCloud!')),
+                        );
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (_) => const EditorPage()),
+                        );
+                      }
+                    } else {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('pCloud login was cancelled or failed')),
+                        );
+                      }
                     }
                   } catch (e) {
                     if (context.mounted) {

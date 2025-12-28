@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'editor_provider.dart';
+part of 'app_theme.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,52 @@ part of 'editor_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Editor)
-const editorProvider = EditorProvider._();
+@ProviderFor(ThemeNotifier)
+const themeProvider = ThemeNotifierProvider._();
 
-final class EditorProvider extends $NotifierProvider<Editor, EditorState> {
-  const EditorProvider._()
+final class ThemeNotifierProvider
+    extends $NotifierProvider<ThemeNotifier, AppThemeMode> {
+  const ThemeNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'editorProvider',
+        name: r'themeProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$editorHash();
+  String debugGetCreateSourceHash() => _$themeNotifierHash();
 
   @$internal
   @override
-  Editor create() => Editor();
+  ThemeNotifier create() => ThemeNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(EditorState value) {
+  Override overrideWithValue(AppThemeMode value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<EditorState>(value),
+      providerOverride: $SyncValueProvider<AppThemeMode>(value),
     );
   }
 }
 
-String _$editorHash() => r'8a10226de83a67d6b169b502dbf94d1f9546ff7a';
+String _$themeNotifierHash() => r'8c2b98bf6fb4679b79f826ba744d63aae915e71c';
 
-abstract class _$Editor extends $Notifier<EditorState> {
-  EditorState build();
+abstract class _$ThemeNotifier extends $Notifier<AppThemeMode> {
+  AppThemeMode build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<EditorState, EditorState>;
+    final ref = this.ref as $Ref<AppThemeMode, AppThemeMode>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<EditorState, EditorState>,
-              EditorState,
+              AnyNotifier<AppThemeMode, AppThemeMode>,
+              AppThemeMode,
               Object?,
               Object?
             >;

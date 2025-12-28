@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/database/app_database.dart';
 
@@ -19,10 +18,11 @@ class FlowRepository {
 
   Future<Essay> getOrCreateFlowEssay() async {
     // 1. Check if a Flow Essay already exists
-    final existingEssay = await (_db.select(_db.essays)
-          ..where((tbl) => tbl.isFlow.equals(true))
-          ..limit(1))
-        .getSingleOrNull();
+    final existingEssay =
+        await (_db.select(_db.essays)
+              ..where((tbl) => tbl.isFlow.equals(true))
+              ..limit(1))
+            .getSingleOrNull();
 
     if (existingEssay != null) {
       return existingEssay;
@@ -32,12 +32,14 @@ class FlowRepository {
     return _db.transaction(() async {
       // Check/Create System Project
       final projectId = 'system-flow-project';
-      final projectExists = await (_db.select(_db.projects)
-            ..where((tbl) => tbl.id.equals(projectId)))
-          .getSingleOrNull();
+      final projectExists = await (_db.select(
+        _db.projects,
+      )..where((tbl) => tbl.id.equals(projectId))).getSingleOrNull();
 
       if (projectExists == null) {
-        await _db.into(_db.projects).insert(
+        await _db
+            .into(_db.projects)
+            .insert(
               ProjectsCompanion(
                 id: Value(projectId),
                 title: const Value('System'),
@@ -50,12 +52,14 @@ class FlowRepository {
 
       // Check/Create Flow Chapter
       final chapterId = 'system-flow-chapter';
-      final chapterExists = await (_db.select(_db.chapters)
-            ..where((tbl) => tbl.id.equals(chapterId)))
-          .getSingleOrNull();
+      final chapterExists = await (_db.select(
+        _db.chapters,
+      )..where((tbl) => tbl.id.equals(chapterId))).getSingleOrNull();
 
       if (chapterExists == null) {
-        await _db.into(_db.chapters).insert(
+        await _db
+            .into(_db.chapters)
+            .insert(
               ChaptersCompanion(
                 id: Value(chapterId),
                 projectId: Value(projectId),
@@ -82,9 +86,9 @@ class FlowRepository {
 
       await _db.into(_db.essays).insert(essay);
 
-      return await (_db.select(_db.essays)
-            ..where((tbl) => tbl.id.equals(essayId)))
-          .getSingle();
+      return await (_db.select(
+        _db.essays,
+      )..where((tbl) => tbl.id.equals(essayId))).getSingle();
     });
   }
 
@@ -95,5 +99,11 @@ class FlowRepository {
         updatedAt: Value(DateTime.now()),
       ),
     );
+  }
+
+  /// Update the flow essay content directly
+  Future<void> updateFlowEssay(String content) async {
+    final essay = await getOrCreateFlowEssay();
+    await updateFlowContent(essay.id, content);
   }
 }

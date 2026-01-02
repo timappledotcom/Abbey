@@ -1,5 +1,5 @@
 Name:           abbey
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        A focused writing app for freeform flow and essays
 
@@ -59,6 +59,11 @@ done
 /usr/share/icons/hicolor/*/apps/abbey.png
 
 %changelog
+* Thu Jan 02 2025 Abbey Developer <abbey@example.com> - 0.1.1-1
+- Fix pCloud OAuth on mobile devices
+- Use flutter_web_auth_2 for mobile OAuth flow
+- Add custom URL scheme for OAuth callbacks
+
 * Sat Dec 28 2024 Abbey Developer <abbey@example.com> - 0.1.0-1
 - Initial release
 - Flow Mode with timed writing sessions

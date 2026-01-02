@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Abbey
+Comment=A focused writing app for freeform flow and essays
+Exec=/usr/share/abbey/abbey
+Icon=abbey
+Terminal=false
+Type=Application
+Categories=Office;TextEditor;
+Keywords=writing;notes;editor;flow;

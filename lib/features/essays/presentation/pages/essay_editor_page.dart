@@ -359,6 +359,7 @@ class _EssayEditorPageState extends ConsumerState<EssayEditorPage> {
           hintText: 'Start writing...',
         ),
         style: Theme.of(context).textTheme.bodyLarge,
+        spellCheckConfiguration: const SpellCheckConfiguration(),
         onChanged: _onTextChanged,
       ),
     );

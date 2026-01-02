@@ -33,7 +33,7 @@ final class PCloudServiceProvider
   PCloudService create() => PCloudService();
 }
 
-String _$pCloudServiceHash() => r'421d4d59b113565ea709b425986eec104245ed34';
+String _$pCloudServiceHash() => r'73c27b365a07bb8dfb0b4ee8cfb2a4ab998320a6';
 
 abstract class _$PCloudService extends $AsyncNotifier<void> {
   FutureOr<void> build();

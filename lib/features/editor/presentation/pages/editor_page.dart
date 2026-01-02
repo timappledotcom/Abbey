@@ -284,6 +284,10 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                           : 'Start writing...',
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
+                    // Enable spell check only when NOT in flow mode
+                    spellCheckConfiguration: editorState.isFlowMode
+                        ? const SpellCheckConfiguration.disabled()
+                        : const SpellCheckConfiguration(),
                     onChanged: (value) {
                       ref.read(editorProvider.notifier).updateContent(value);
                     },

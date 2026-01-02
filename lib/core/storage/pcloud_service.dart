@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +15,16 @@ class PCloudService extends _$PCloudService {
   static const String _clientSecret = 'EGuKRoDRaOb4FxsMvORfR89SdiFX';
   // Using localhost redirect for desktop OAuth flow
   static const int _localPort = 53682;
-  static const String _redirectUri = 'http://localhost:$_localPort/';
+  static const String _desktopRedirectUri = 'http://localhost:$_localPort/';
+  // Custom URL scheme for mobile OAuth flow
+  static const String _mobileRedirectUri = 'abbey://pcloud-callback';
+
+  /// Returns true if running on mobile (Android or iOS)
+  bool get _isMobile =>
+      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+
+  /// Gets the appropriate redirect URI based on platform
+  String get _redirectUri => _isMobile ? _mobileRedirectUri : _desktopRedirectUri;
 
   /// The root folder name in pCloud where Abbey stores all its data
   static const String abbeyFolderName = 'Abbey';
@@ -31,9 +42,51 @@ class PCloudService extends _$PCloudService {
     // Check if we have a token
   }
 
-  /// Starts the OAuth login flow with a local server to capture the callback.
+  /// Starts the OAuth login flow.
+  /// On mobile: Uses flutter_web_auth_2 with custom URL scheme
+  /// On desktop: Uses a local server to capture the callback
   /// Returns true if authentication was successful.
   Future<bool> startLogin() async {
+    if (_isMobile) {
+      return await _startMobileLogin();
+    } else {
+      return await _startDesktopLogin();
+    }
+  }
+
+  /// Mobile OAuth flow using flutter_web_auth_2
+  Future<bool> _startMobileLogin() async {
+    final authUrl =
+        'https://my.pcloud.com/oauth2/authorize?client_id=$_clientId&response_type=code&redirect_uri=${Uri.encodeComponent(_redirectUri)}';
+
+    try {
+      final result = await FlutterWebAuth2.authenticate(
+        url: authUrl,
+        callbackUrlScheme: 'abbey',
+      );
+
+      // Parse the result URL to get the code
+      final uri = Uri.parse(result);
+      final code = uri.queryParameters['code'];
+      final error = uri.queryParameters['error'];
+
+      if (error != null) {
+        throw Exception('Authorization denied: $error');
+      }
+
+      if (code != null) {
+        await handleAuthCode(code);
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      throw Exception('OAuth error: $e');
+    }
+  }
+
+  /// Desktop OAuth flow using a local server to capture the callback.
+  Future<bool> _startDesktopLogin() async {
     // Start a local server to listen for the OAuth callback
     try {
       _server = await HttpServer.bind(InternetAddress.loopbackIPv4, _localPort);

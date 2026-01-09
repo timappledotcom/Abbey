@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="PublishDialog" parent="AdwWindow">
+    <property name="title">Publish to Microblog</property>
+    <property name="default-width">500</property>
+    <property name="default-height">600</property>
+    
+    <property name="content">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="start">
+              <object class="GtkButton">
+                <property name="label">Cancel</property>
+                <signal name="clicked" handler="on_close"/>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="publish_btn">
+                <property name="label">Publish</property>
+                <signal name="clicked" handler="on_publish"/>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="GtkScrolledWindow">
+            <property name="hscrollbar-policy">never</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-top">24</property>
+                <property name="margin-bottom">24</property>
+                <property name="spacing">24</property>
+                
+                <!-- Microblog Settings -->
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title">Microblog Settings</property>
+                    <property name="description">Configure your Micropub endpoint</property>
+                    
+                    <child>
+                      <object class="AdwEntryRow" id="endpoint_entry">
+                        <property name="title">Endpoint URL</property>
+                        <property name="text">https://micro.blog</property>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="AdwPasswordEntryRow" id="api_key_entry">
+                        <property name="title">API Key / Token</property>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="AdwEntryRow" id="blog_id_entry">
+                        <property name="title">Blog ID (optional)</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                
+                <!-- Preview -->
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">8</property>
+                    
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Preview</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <property name="height-request">200</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <style>
+                          <class name="card"/>
+                        </style>
+                        <child>
+                          <object class="GtkTextView" id="preview_view">
+                            <property name="editable">false</property>
+                            <property name="wrap-mode">word</property>
+                            <property name="top-margin">12</property>
+                            <property name="bottom-margin">12</property>
+                            <property name="left-margin">12</property>
+                            <property name="right-margin">12</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                
+                <!-- Status -->
+                <child>
+                  <object class="GtkLabel" id="status_label">
+                    <property name="label"></property>
+                    <property name="xalign">0.5</property>
+                    <property name="wrap">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

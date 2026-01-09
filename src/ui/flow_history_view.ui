@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="FlowHistoryView" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    
+    <child>
+      <object class="GtkPaned">
+        <property name="orientation">horizontal</property>
+        <property name="position">320</property>
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        
+        <!-- Flow List -->
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">280</property>
+            <style>
+              <class name="sidebar"/>
+            </style>
+            
+            <!-- Header -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="margin-top">16</property>
+                <property name="margin-bottom">12</property>
+                <property name="spacing">8</property>
+                
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Flow Journal</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                
+                <child>
+                  <object class="GtkLabel" id="stats_label">
+                    <property name="label">0 sessions</property>
+                    <property name="xalign">0</property>
+                    <property name="wrap">true</property>
+                    <style>
+                      <class name="dim-label"/>
+                      <class name="caption"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+            
+            <!-- Sessions List -->
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="vexpand">true</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkListBox" id="flow_list">
+                    <property name="selection-mode">single</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-end">6</property>
+                    <property name="margin-top">6</property>
+                    <property name="margin-bottom">6</property>
+                    <style>
+                      <class name="navigation-sidebar"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        
+        <!-- Content View -->
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            
+            <!-- Toolbar -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">8</property>
+                
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Select text below to use in a composition</property>
+                    <property name="hexpand">true</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+                
+                <child>
+                  <object class="GtkButton" id="use_in_composition_btn">
+                    <property name="label">Use in Composition</property>
+                    <signal name="clicked" handler="on_use_in_composition" swapped="true"/>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+            
+            <!-- Content Display -->
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <property name="hscrollbar-policy">never</property>
+                <style>
+                  <class name="editor-scroll"/>
+                </style>
+                <child>
+                  <object class="GtkTextView" id="content_view">
+                    <property name="editable">false</property>
+                    <property name="wrap-mode">word</property>
+                    <property name="left-margin">48</property>
+                    <property name="right-margin">48</property>
+                    <property name="top-margin">24</property>
+                    <property name="bottom-margin">48</property>
+                    <style>
+                      <class name="markdown-view"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

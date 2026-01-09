@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Abbey
+Comment=A beautiful writing application
+Exec=abbey
+Icon=app.abbey.Abbey
+Terminal=false
+Type=Application
+Categories=Office;TextEditor;
+Keywords=writing;markdown;editor;flow;
+StartupNotify=true

@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="AbbeyWindow" parent="AdwApplicationWindow">
+    <property name="title">Abbey</property>
+    <property name="default-width">1200</property>
+    <property name="default-height">800</property>
+    
+    <child>
+      <object class="AdwToastOverlay" id="toast_overlay">
+        <child>
+          <object class="AdwNavigationSplitView" id="split_view">
+            <property name="min-sidebar-width">280</property>
+            <property name="max-sidebar-width">400</property>
+            
+            <!-- Sidebar -->
+            <property name="sidebar">
+              <object class="AdwNavigationPage">
+                <property name="title">Abbey</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <child type="start">
+                          <object class="GtkButton" id="new_composition_btn">
+                            <property name="icon-name">document-new-symbolic</property>
+                            <property name="tooltip-text">New Composition (Ctrl+N)</property>
+                            <signal name="clicked" handler="on_new_composition" swapped="true"/>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child type="end">
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">open-menu-symbolic</property>
+                            <property name="menu-model">primary_menu</property>
+                            <property name="tooltip-text">Main Menu</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    
+                    <property name="content">
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">0</property>
+                        
+                        <!-- Flow Mode Button -->
+                        <child>
+                          <object class="GtkButton" id="flow_mode_btn">
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-top">12</property>
+                            <property name="margin-bottom">12</property>
+                            <signal name="clicked" handler="on_flow_mode" swapped="true"/>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">8</property>
+                                <property name="halign">center</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">media-playback-start-symbolic</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label">Enter Flow Mode</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="suggested-action"/>
+                              <class name="pill"/>
+                            </style>
+                          </object>
+                        </child>
+                        
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">horizontal</property>
+                          </object>
+                        </child>
+                        
+                        <!-- Navigation List -->
+                        <child>
+                          <object class="GtkListBox" id="nav_list">
+                            <property name="selection-mode">single</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-bottom">6</property>
+                            <style>
+                              <class name="navigation-sidebar"/>
+                            </style>
+                            
+                            <!-- Writing/Compositions -->
+                            <child>
+                              <object class="GtkListBoxRow" id="nav_writing">
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="orientation">horizontal</property>
+                                    <property name="spacing">12</property>
+                                    <property name="margin-start">8</property>
+                                    <property name="margin-end">8</property>
+                                    <property name="margin-top">8</property>
+                                    <property name="margin-bottom">8</property>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">document-edit-symbolic</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">Writing</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            
+                            <!-- Flow Journal -->
+                            <child>
+                              <object class="GtkListBoxRow" id="nav_flows">
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="orientation">horizontal</property>
+                                    <property name="spacing">12</property>
+                                    <property name="margin-start">8</property>
+                                    <property name="margin-end">8</property>
+                                    <property name="margin-top">8</property>
+                                    <property name="margin-bottom">8</property>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">document-open-recent-symbolic</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">Flow Journal</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            
+                            <!-- Projects -->
+                            <child>
+                              <object class="GtkListBoxRow" id="nav_projects">
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="orientation">horizontal</property>
+                                    <property name="spacing">12</property>
+                                    <property name="margin-start">8</property>
+                                    <property name="margin-end">8</property>
+                                    <property name="margin-top">8</property>
+                                    <property name="margin-bottom">8</property>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">folder-symbolic</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">Projects</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            
+                            <!-- Archive -->
+                            <child>
+                              <object class="GtkListBoxRow" id="nav_archive">
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="orientation">horizontal</property>
+                                    <property name="spacing">12</property>
+                                    <property name="margin-start">8</property>
+                                    <property name="margin-end">8</property>
+                                    <property name="margin-top">8</property>
+                                    <property name="margin-bottom">8</property>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">user-trash-symbolic</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="label">Archive</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">horizontal</property>
+                          </object>
+                        </child>
+                        
+                        <!-- Compositions Label -->
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">Compositions</property>
+                            <property name="xalign">0</property>
+                            <property name="margin-start">16</property>
+                            <property name="margin-top">12</property>
+                            <property name="margin-bottom">6</property>
+                            <style>
+                              <class name="heading"/>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
+                        
+                        <!-- Compositions List -->
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="vexpand">true</property>
+                            <property name="hscrollbar-policy">never</property>
+                            <child>
+                              <object class="GtkListBox" id="composition_list">
+                                <property name="selection-mode">single</property>
+                                <property name="margin-start">6</property>
+                                <property name="margin-end">6</property>
+                                <style>
+                                  <class name="navigation-sidebar"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">horizontal</property>
+                          </object>
+                        </child>
+                        
+                        <!-- Theme Selector -->
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">horizontal</property>
+                            <property name="spacing">12</property>
+                            <property name="margin-start">16</property>
+                            <property name="margin-end">16</property>
+                            <property name="margin-top">12</property>
+                            <property name="margin-bottom">12</property>
+                            
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="label">Theme</property>
+                                <property name="hexpand">true</property>
+                                <property name="xalign">0</property>
+                              </object>
+                            </child>
+                            
+                            <child>
+                              <object class="GtkDropDown" id="theme_dropdown">
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </property>
+            
+            <!-- Content Area -->
+            <property name="content">
+              <object class="AdwNavigationPage">
+                <property name="title">Writing</property>
+                <property name="child">
+                  <object class="AdwToolbarView">
+                    <child type="top">
+                      <object class="AdwHeaderBar">
+                        <child type="end">
+                          <object class="GtkButton">
+                            <property name="icon-name">document-save-symbolic</property>
+                            <property name="tooltip-text">Save (Ctrl+S)</property>
+                            <property name="action-name">win.save</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child type="end">
+                          <object class="GtkMenuButton">
+                            <property name="icon-name">view-more-symbolic</property>
+                            <property name="menu-model">composition_menu</property>
+                            <property name="tooltip-text">Composition Options</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    
+                    <property name="content">
+                      <object class="GtkStack" id="main_stack">
+                        <property name="transition-type">crossfade</property>
+                        <property name="transition-duration">200</property>
+                        
+                        <!-- Composition View -->
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">composition</property>
+                            <property name="child">
+                              <object class="GtkBox" id="content_box">
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                                
+                                <!-- Welcome message when no composition is open -->
+                                <child>
+                                  <object class="AdwStatusPage">
+                                    <property name="icon-name">document-edit-symbolic</property>
+                                    <property name="title">Welcome to Abbey</property>
+                                    <property name="description">Create a new composition or enter Flow Mode to start writing</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        
+                        <!-- Flow Mode -->
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">flow</property>
+                            <property name="child">
+                              <object class="GtkBox" id="flow_box">
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        
+                        <!-- Flow History -->
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">flow-history</property>
+                            <property name="child">
+                              <object class="GtkBox" id="flow_history_box">
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        
+                        <!-- Projects -->
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">projects</property>
+                            <property name="child">
+                              <object class="GtkBox" id="projects_box">
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        
+                        <!-- Archive -->
+                        <child>
+                          <object class="GtkStackPage">
+                            <property name="name">archive</property>
+                            <property name="child">
+                              <object class="GtkBox" id="archive_box">
+                                <property name="orientation">vertical</property>
+                                <property name="hexpand">true</property>
+                                <property name="vexpand">true</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label">New Composition</attribute>
+        <attribute name="action">win.new-composition</attribute>
+      </item>
+      <item>
+        <attribute name="label">Flow Mode</attribute>
+        <attribute name="action">win.flow-mode</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">About Abbey</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+      <item>
+        <attribute name="label">Quit</attribute>
+        <attribute name="action">app.quit</attribute>
+      </item>
+    </section>
+  </menu>
+  
+  <menu id="composition_menu">
+    <section>
+      <item>
+        <attribute name="label">Rename</attribute>
+        <attribute name="action">win.rename</attribute>
+      </item>
+      <item>
+        <attribute name="label">Archive</attribute>
+        <attribute name="action">win.archive</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label">Publish to Microblog</attribute>
+        <attribute name="action">win.publish</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

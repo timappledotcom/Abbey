@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="FlowView" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    
+    <style>
+      <class name="flow-mode-container"/>
+    </style>
+    
+    <!-- Top bar with timer and controls -->
+    <child>
+      <object class="GtkCenterBox">
+        <property name="margin-start">24</property>
+        <property name="margin-end">24</property>
+        <property name="margin-top">16</property>
+        <property name="margin-bottom">8</property>
+        
+        <property name="start-widget">
+          <object class="GtkLabel" id="word_count_label">
+            <property name="label">0 words</property>
+            <style>
+              <class name="word-count"/>
+              <class name="dim-label"/>
+            </style>
+          </object>
+        </property>
+        
+        <property name="center-widget">
+          <object class="GtkLabel" id="timer_label">
+            <property name="label">00:00</property>
+            <style>
+              <class name="flow-timer"/>
+            </style>
+          </object>
+        </property>
+        
+        <property name="end-widget">
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">8</property>
+            
+            <child>
+              <object class="GtkButton" id="pause_button">
+                <property name="icon-name">media-playback-pause-symbolic</property>
+                <property name="tooltip-text">Pause flow</property>
+                <signal name="clicked" handler="on_pause" swapped="true"/>
+                <style>
+                  <class name="flat"/>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkButton" id="stop_button">
+                <property name="icon-name">media-playback-stop-symbolic</property>
+                <property name="tooltip-text">End flow early</property>
+                <signal name="clicked" handler="on_stop" swapped="true"/>
+                <style>
+                  <class name="flat"/>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    
+    <!-- Editor -->
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        <property name="hscrollbar-policy">never</property>
+        <style>
+          <class name="editor-scroll"/>
+        </style>
+        <child>
+          <object class="GtkTextView" id="editor">
+            <property name="wrap-mode">word</property>
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            <property name="left-margin">64</property>
+            <property name="right-margin">64</property>
+            <property name="top-margin">48</property>
+            <property name="bottom-margin">48</property>
+            <style>
+              <class name="flow-editor"/>
+              <class name="editor-view"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

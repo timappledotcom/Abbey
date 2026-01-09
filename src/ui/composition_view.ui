@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="CompositionView" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    
+    <child>
+      <object class="AdwOverlaySplitView" id="split_view">
+        <property name="sidebar-position">end</property>
+        <property name="show-sidebar">false</property>
+        <property name="min-sidebar-width">280</property>
+        <property name="max-sidebar-width">360</property>
+        
+        <!-- Main content -->
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            
+            <!-- Title and controls bar -->
+            <child>
+              <object class="GtkCenterBox">
+                <property name="margin-start">48</property>
+                <property name="margin-end">48</property>
+                <property name="margin-top">24</property>
+                <property name="margin-bottom">8</property>
+                
+                <property name="start-widget">
+                  <object class="GtkEntry" id="title_entry">
+                    <property name="placeholder-text">Untitled</property>
+                    <property name="hexpand">true</property>
+                    <property name="max-width-chars">60</property>
+                    <style>
+                      <class name="title-entry"/>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </property>
+                
+                <property name="end-widget">
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">8</property>
+                    
+                    <child>
+                      <object class="GtkLabel" id="word_count_label">
+                        <property name="label">0 words</property>
+                        <style>
+                          <class name="word-count"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkToggleButton" id="toggle_preview_btn">
+                        <property name="icon-name">view-reveal-symbolic</property>
+                        <property name="tooltip-text">Toggle Markdown Preview</property>
+                        <signal name="toggled" handler="on_toggle_preview" swapped="true"/>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkToggleButton" id="toggle_notes_btn">
+                        <property name="icon-name">sidebar-show-right-symbolic</property>
+                        <property name="tooltip-text">Toggle Notes Panel</property>
+                        <signal name="toggled" handler="on_toggle_notes" swapped="true"/>
+                        <style>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator">
+                <property name="margin-start">48</property>
+                <property name="margin-end">48</property>
+              </object>
+            </child>
+            
+            <!-- Editor/Preview Stack -->
+            <child>
+              <object class="GtkStack" id="editor_stack">
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <property name="transition-type">crossfade</property>
+                <property name="transition-duration">200</property>
+                
+                <!-- Editor Page -->
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">edit</property>
+                    <property name="child">
+                      <object class="GtkScrolledWindow">
+                        <property name="hexpand">true</property>
+                        <property name="vexpand">true</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <style>
+                          <class name="editor-scroll"/>
+                        </style>
+                        <child>
+                          <object class="GtkTextView" id="editor">
+                            <property name="wrap-mode">word</property>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                            <property name="left-margin">48</property>
+                            <property name="right-margin">48</property>
+                            <property name="top-margin">24</property>
+                            <property name="bottom-margin">48</property>
+                            <style>
+                              <class name="editor-view"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                
+                <!-- Preview Page -->
+                <child>
+                  <object class="GtkStackPage">
+                    <property name="name">preview</property>
+                    <property name="child">
+                      <object class="GtkScrolledWindow">
+                        <property name="hexpand">true</property>
+                        <property name="vexpand">true</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <child>
+                          <object class="GtkTextView" id="preview_view">
+                            <property name="editable">false</property>
+                            <property name="cursor-visible">false</property>
+                            <property name="wrap-mode">word</property>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                            <property name="left-margin">48</property>
+                            <property name="right-margin">48</property>
+                            <property name="top-margin">24</property>
+                            <property name="bottom-margin">48</property>
+                            <style>
+                              <class name="preview-view"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+        
+        <!-- Notes Sidebar -->
+        <property name="sidebar">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">280</property>
+            <style>
+              <class name="sidebar"/>
+            </style>
+            
+            <!-- Notes Header -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="margin-top">16</property>
+                <property name="margin-bottom">8</property>
+                
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Notes</property>
+                    <property name="hexpand">true</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <!-- Add Note Entry -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">8</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="margin-bottom">12</property>
+                
+                <child>
+                  <object class="GtkEntry" id="note_entry">
+                    <property name="hexpand">true</property>
+                    <property name="placeholder-text">Add a note...</property>
+                    <signal name="activate" handler="on_note_entry_activate" swapped="true"/>
+                  </object>
+                </child>
+                
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">list-add-symbolic</property>
+                    <property name="tooltip-text">Add Note</property>
+                    <signal name="clicked" handler="on_add_note" swapped="true"/>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+            
+            <!-- Notes List -->
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="vexpand">true</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkListBox" id="notes_list">
+                    <property name="selection-mode">none</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
+                    <property name="margin-top">12</property>
+                    <property name="margin-bottom">12</property>
+                    <style>
+                      <class name="boxed-list-separate"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

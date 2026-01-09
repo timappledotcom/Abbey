@@ -1,0 +1,34 @@
+[package]
+name = "abbey"
+version = "0.1.0"
+edition = "2021"
+authors = ["Abbey Team"]
+description = "A beautiful writing application for Linux"
+license = "GPL-3.0"
+
+[dependencies]
+gtk4 = { version = "0.9", features = ["v4_12"] }
+libadwaita = { version = "0.7", features = ["v1_4"] }
+glib = "0.20"
+gio = "0.20"
+gdk4 = "0.9"
+pango = "0.20"
+sourceview5 = "0.9"
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+directories = "5.0"
+pulldown-cmark = "0.12"
+reqwest = { version = "0.12", features = ["json"] }
+once_cell = "1.19"
+log = "0.4"
+env_logger = "0.11"
+
+[build-dependencies]
+glib-build-tools = "0.20"
+
+[profile.release]
+opt-level = 3
+lto = true

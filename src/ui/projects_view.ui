@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  
+  <template class="ProjectsView" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    
+    <child>
+      <object class="GtkPaned">
+        <property name="orientation">horizontal</property>
+        <property name="position">320</property>
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
+        
+        <!-- Projects List -->
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">280</property>
+            <style>
+              <class name="sidebar"/>
+            </style>
+            
+            <!-- Header -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">horizontal</property>
+                <property name="margin-start">16</property>
+                <property name="margin-end">16</property>
+                <property name="margin-top">16</property>
+                <property name="margin-bottom">12</property>
+                
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label">Projects</property>
+                    <property name="hexpand">true</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">folder-new-symbolic</property>
+                    <property name="tooltip-text">New Project</property>
+                    <signal name="clicked" handler="on_new_project" swapped="true"/>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+            
+            <!-- Projects List -->
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="vexpand">true</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkListBox" id="projects_list">
+                    <property name="selection-mode">single</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-end">6</property>
+                    <property name="margin-top">6</property>
+                    <property name="margin-bottom">6</property>
+                    <style>
+                      <class name="navigation-sidebar"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        
+        <!-- Project Detail -->
+        <child>
+          <object class="GtkBox" id="project_detail">
+            <property name="orientation">vertical</property>
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            <property name="visible">false</property>
+            
+            <!-- Project Info -->
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-top">24</property>
+                <property name="margin-bottom">16</property>
+                <property name="spacing">12</property>
+                
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">12</property>
+                    
+                    <child>
+                      <object class="GtkEntry" id="project_title">
+                        <property name="hexpand">true</property>
+                        <property name="placeholder-text">Project Title</property>
+                        <style>
+                          <class name="title-entry"/>
+                          <class name="flat"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkButton" id="export_btn">
+                        <property name="label">Export</property>
+                        <property name="tooltip-text">Export project to Markdown</property>
+                        <signal name="clicked" handler="on_export_project" swapped="true"/>
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="height-request">80</property>
+                    <property name="hscrollbar-policy">never</property>
+                    <child>
+                      <object class="GtkTextView" id="project_description">
+                        <property name="wrap-mode">word</property>
+                        <property name="top-margin">8</property>
+                        <property name="bottom-margin">8</property>
+                        <property name="left-margin">12</property>
+                        <property name="right-margin">12</property>
+                        <style>
+                          <class name="card"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            
+            <child>
+              <object class="GtkSeparator"/>
+            </child>
+            
+            <!-- Project Contents -->
+            <child>
+              <object class="GtkPaned">
+                <property name="orientation">horizontal</property>
+                <property name="position">400</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                
+                <!-- Compositions in Project -->
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">true</property>
+                    
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">In This Project</property>
+                        <property name="xalign">0</property>
+                        <property name="margin-start">16</property>
+                        <property name="margin-top">16</property>
+                        <property name="margin-bottom">8</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <property name="vexpand">true</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <child>
+                          <object class="GtkListBox" id="compositions_list">
+                            <property name="selection-mode">none</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-bottom">12</property>
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                
+                <!-- Available Compositions -->
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">true</property>
+                    <style>
+                      <class name="sidebar"/>
+                    </style>
+                    
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Available Compositions</property>
+                        <property name="xalign">0</property>
+                        <property name="margin-start">16</property>
+                        <property name="margin-top">16</property>
+                        <property name="margin-bottom">8</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="GtkScrolledWindow">
+                        <property name="vexpand">true</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <child>
+                          <object class="GtkListBox" id="available_compositions">
+                            <property name="selection-mode">none</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-top">6</property>
+                            <property name="margin-bottom">12</property>
+                            <style>
+                              <class name="boxed-list"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
